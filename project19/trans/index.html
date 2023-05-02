@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<!-- 引入mui.min.css -->
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<!-- 引入picker组件css -->
+		<link href="css/mui.picker.min.css" rel="stylesheet" />
+		<!-- 引出等待框样式 -->
+		<link rel="stylesheet" href="css/waiting.css">
+		<style>
+			/* 页面容器 */
+			.app {
+				height: 100vh;
+				background-color: #64CAFF;
+			}
+			/* 主体区域*/
+			.mui-content {
+				background-color: transparent;
+			}
+			/* 主体内容*/
+			.main {
+				margin: 10px;
+				text-align: center;
+			}
+			/* 两个文本域 */
+			textarea {
+				margin-top: 15px;
+				/* 边框 */
+				border: 6px solid #C5E6FC;
+				/* 圆角 */
+				border-radius: 15px;
+			}
+			/* 立即翻译按钮 */
+			img {
+				width: 120px;
+				height: 40px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="app">
+			<!-- 标题栏 -->
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title">语言大师</h1>
+			</header>
+			<!-- 主体区域 -->
+			<div class="mui-content">
+				<!-- 主体内容 -->
+				<div class="main">
+					<!-- 语言切换按钮 -->
+					<button id="btn" type="button" class="mui-btn">
+						<span id="yuyan">自动检测</span>
+						<span class="mui-icon mui-icon-arrowdown"></span>
+					</button>
+					<!-- 待翻译内容 -->
+					<textarea rows="8" placeholder="请输入要翻译的内容"></textarea>
+					<!-- 立即翻译按钮 -->
+					<img id="fanyi" src="img/fanyi.png">
+					<!-- 翻译结果 -->
+					<textarea rows="8" readonly></textarea>
+				</div>
+			</div>
+		</div>
+		<!-- 引入mui.min.js -->
+		<script src="../js/mui.min.js"></script>
+		<!-- 引入picker组件js -->
+		<script src="js/mui.picker.min.js"></script>
+		<!-- 引入等待框发方法 -->
+		<script src="js/waiting.js"></script>
+		<script>
+			// 输入的语言类型
+			var from = 0
+			// 输出的语言类型
+			var to = 0
+			
+			// picker组件数据
+			var data = [
+				{text: '自动检测',from: 0,to: 0},
+				{text: '中 - 英',from: 1,to: 2}, 
+				{text: '英 - 中',from: 2,to: 1}, 
+				{text: '中 - 法',from: 1,to: 5},
+				{text: '法 - 中',from: 5,to: 1}, 
+				{text: '中 - 日',from: 1,to: 3},
+				{text: '日 - 中',from: 3,to: 1},
+				{text: '中 - 韩',from: 1,to: 4},
+				{text: '韩 - 中',from: 4,to: 1},
+				{text: '日 - 韩',from: 3,to: 4},
+				{text: '韩 - 日',from: 4,to: 3}
+			]
+			
+			// 1、初始化picker组件
+			var picker = new mui.PopPicker()
+			
+			// 2、给picker对象添加数据
+			picker.setData(data)
+			
+			// 为“语言切换”按钮添加tap事件
+			mui('#btn')[0].addEventListener('tap',function(){
+				// 3、显示picker，并获取选择的数据
+				picker.show(function(item){
+					// 修改语言切换按钮内容
+					mui('#yuyan')[0].innerHTML = item[0].text
+					from = item[0].from
+					to = item[0].to
+				})
+			})
+			
+			// 为“立即翻译”按钮添加tap事件
+			mui('#fanyi')[0].addEventListener('tap',function(){
+				// 获取待翻译内容
+				var text = mui('textarea')[0].value
+				// 显示等待框
+				ybc.showWaiting()
+				// 进行文本翻译
+				mui.ajax('https://www.yuanfudao.com/ada-student-app-api/api/trans',{
+					type: 'GET', // 设置请求方式
+					data:{ // 设置请求参数
+						text: text,
+						from: from,
+						to: to
+					},
+					success:function(data){ // 请求成功的处理函数
+						// 关闭等待框
+						ybc.closeWaiting()
+						// 判断服务器操作是否成功
+						if(data.code == 0){
+							// 展示翻译结果
+							mui('textarea')[1].value = data.result
+						}else{
+							alert('翻译失败！')
+						}
+					},
+					error:function(){ // 请求失败的处理函数
+						// 关闭等待框
+						ybc.closeWaiting()
+						alert('请求失败!')
+					}
+				})
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+	<style>
+		body {
+			background-color: #FFFAFA;
+		}
+		/* 主体区域 */
+		.mui-content {
+			background-color: transparent;
+		}
+		/* 分数区域 */
+		.score{
+			font-size: 18px;
+			color: #90ADFF;
+			margin: 10px;
+		}
+		/* 图片区域 */
+		.banner{
+			background-color: #EFEFEF;
+			border-radius: 10px;
+			margin-left: 10px;
+			margin-right: 10px;
+		}
+		.pic{
+			width: 100%;
+			display: block;
+			border-radius: 10px;
+		}
+		/* 答案区域 */
+		.answer{
+			height: 20vw;
+			margin-top: 20px;
+			margin-left: 4vw;
+		}
+		.item{
+			float:left;
+			width:19vw;
+			height:19vw;
+			line-height: 19vw;
+			font-size: 30px;
+			color:#FFFFFF;
+			background-color: #90ADFF;
+			text-align: center;
+			border-radius: 10px;
+			margin:0 2vw;
+		}
+		/* 提示区域 */
+		.tips{
+			text-align: center;
+			color: #90ADFF;
+			margin-top: 20px;
+		}
+		/* 选项区域 */
+		.select{
+			margin-top: 15px;
+			margin-left: 5vw;
+		}
+		.opt{
+			float: left; 
+			width:13vw;
+			height: 13vw;
+			line-height: 13vw;
+			font-size: 20px;
+			color: #90ADFF;
+			background-color: #EFF5FF;
+			text-align: center;
+			border: 1px solid #90ADFF;
+			border-radius: 10px;
+			margin: 1vw;
+		}
+		/* 详情区域 */
+		.detail{
+			margin-left: 15px;
+			margin-right: 15px;
+			margin-top: 15px;
+			display: none;
+		}
+		.label{
+			color: #90ADFF;
+			font-size:20px;
+			margin-bottom: 5px;
+		}
+		.txt{
+			color: #646464;
+			font-size:14px;
+			margin-bottom: 5px;
+		}
+		/* 下一题区域 */
+		.next{
+			text-align: center;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			/* 设置区域隐藏 */
+			display: none;
+		}
+		.btn{
+			color: #90ADFF;
+			border: 1px solid #90ADFF;
+		}
+	</style>
+</head>
+<body>
+	<!-- 标题栏 -->
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">你画我猜</h1>
+	</header>
+	<!-- 主体区域 -->
+	<div class="mui-content">
+		<!-- 分数区域 -->
+		<div class="score">
+			score: <span id="num">0</span>
+		</div>
+		<!-- 图片区域 -->
+		<div class="banner">
+			<img class="pic" src="img/beijinglixiang.png" />
+		</div>
+		<!-- 答案区域 -->
+		<div class="answer">
+			<div class="item"></div>
+			<div class="item"></div>
+			<div class="item"></div>
+			<div class="item"></div>
+		</div>
+		<!-- 提示区域 -->
+		<div class="tips">请点击下方文字</div>
+		<!-- 选项区域 -->
+		<div class="select" id="select">
+			<!-- <div class="opt">背</div>
+			<div class="opt">强</div>
+			<div class="opt">井</div>
+			<div class="opt">伞</div>
+			<div class="opt">乡</div>
+			<div class="opt">离</div>
+			<div class="opt">歇</div>
+			<div class="opt">婑</div>
+			<div class="opt">钓</div>
+			<div class="opt">病</div>
+			<div class="opt">至</div>
+			<div class="opt">节</div> -->
+		</div>
+		<!-- 详情区域 -->
+		<div class="detail" id='detail'>
+			<div>
+				<div class="label">成语拼音：</div>
+				<div class="txt" id="pinYin"></div>
+			</div>
+			<div>
+				<div class="label">成语解释：</div>
+				<div class="txt" id="explain"></div>
+			</div>
+			<div>
+				<div class="label">成语出处：</div>
+				<div class="txt" id="source"></div>
+			</div>
+			<div>
+				<div class="label">成语造句：</div>
+				<div class="txt" id="example"></div>
+			</div>
+		</div>
+		<!-- 下一题区域 -->
+		<div class="next">
+			<button class="btn" type="button">下一题</button>
+		</div>
+	</div>
+	<script src="../js/mui.min.js"></script>
+	<script>
+		// 存储当前成语
+		var cy = {
+			imgSrc: 'https://show.ybccode.com/idiom/chengfengpolang.png',
+			options: ['破', '顺', '乘', '风', '械', '浪', '带', '脾', '并', '茅', '单', '吆', '艴', '番', '磬', '萼', '餗', '框', '剸', '嵓', '沮', '叶', '闰', '攧'],
+			pinYin: 'chéng fēng pò làng',
+			explain: '船只乘着风势破浪前进。比喻排除困难，奋勇前进。',
+			source: '《宋书·宗悫传》：“悫年少时，炳问其志，悫曰：‘愿乘长风破万里浪。’”',
+			example: '轮船在乘风破浪，汽车在驶过原野。（茅盾《子夜》）',
+			answer: '乘风破浪'
+		}
+		
+		// 修改成语图片
+		mui('.pic')[0].src = cy.imgSrc
+		
+		// 生成选项区域内容
+		var options = cy.options 
+		var optStr = ''
+		for(var i = 0; i < options.length; i++){
+			optStr += `<div class="opt">${options[i]}</div>`
+		}
+		mui('#select')[0].innerHTML = optStr
+		
+		// 存储答案区域的索引
+		var count = 0
+		// 存储答案区域的答案
+		var answer = ''
+		// 选项区域批量事件绑定			
+		mui('#select').on('tap','.opt',function(){
+			// 当前点击的文字
+			var text = this.innerHTML
+			console.log(text)
+			// 隐藏当前点击的元素
+			this.style.visibility = 'hidden'
+			// 将文字填入答案区域
+			mui('.item')[count].innerHTML = text
+			// 答题区域索引+1
+			count ++
+			// 拼接所选文字
+			answer += text
+			
+			// 答题完成进行校验
+			if(count == 4){
+				// 检查答案是否正确
+			    checkAnswer()
+				// 重置答案区域索引
+				count = 0
+				// 重置存储的答案
+				answer = ''
+			}
+		})
+		
+		// 存储当前分数
+		var score = 0
+		// 检查答案是否正确
+		function checkAnswer(){
+			if(answer == cy.answer){
+				console.log('回答正确')
+				// 分数+10
+				score += 10
+				// 修改页面中的分数
+				mui('#num')[0].innerHTML = score
+				
+				// 修改答案区域样式
+				var items = mui('.item')
+			    for(var i = 0; i < items.length; i++){
+					items[i].style.backgroundColor = '#94D9B7'
+			    }
+				
+				// 修改提示区域内容
+				mui('.tips')[0].innerHTML = '答对啦，你最棒！'
+				
+				// 隐藏选项区域
+				mui('#select')[0].style.display = 'none'
+				
+				// 显示详情区域
+				mui('#detail')[0].style.display = 'block'
+				
+				// 设置详情区域内容
+				mui('#pinYin')[0].innerHTML = cy.pinYin
+				mui('#explain')[0].innerHTML = cy.explain
+				mui('#source')[0].innerHTML = cy.source
+				mui('#example')[0].innerHTML = cy.example
+				
+				// 显示下一题区域
+				mui('.next')[0].style.display = 'block'
+				
+			}else{
+			    console.log('回答错误')
+			}
+		}
+		
+		// 为下一题按钮绑定单击事件
+		mui('.btn')[0].addEventListener('tap', function(){
+			console.log("点击了下一题");
+		})
+	</script>
+</body>
+</html>

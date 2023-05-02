@@ -1,0 +1,35 @@
+#waitArea{
+	position: fixed;
+	top:0px;
+	bottom: 0px;
+	left:0px;
+	right: 0px;
+	z-index: 99;
+}
+#waitBox{
+	position: fixed;
+	top:50%;
+	left:50%;
+	width: 140px;
+	height: 140px;
+	border-radius: 10px;
+	opacity: 0.9;
+	background-color: #333;
+	transform: translate(-50%, -50%);
+}
+#waitBox img{
+	width: 150px;
+	height: 150px;
+	margin-left: -5px;
+	margin-top: -15px;
+}
+#waitTitle{
+	position: absolute;
+	bottom: 10px;
+	height: 20px;
+	width: 100%;
+	color:#FFF;
+	font-size: 14px;
+	line-height: 20px;
+	text-align: center;
+}

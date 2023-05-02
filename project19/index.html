@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<style type="text/css">
+			/* 清除默认样式 */
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			/* 页面容器 */
+			.app {
+				height: 100vh;
+				background-image: url(img/bg.png);
+				background-size: cover;
+			}
+			/* 顶部logo */
+			/* 三个按钮 */
+			.btn {
+				width: 230px;
+				height: 72px;
+				margin-top: 16px;
+				margin-bottom: 16px;
+			}
+			/* 按钮容器 */
+			.main {
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+		</style>
+	</head>
+	<body>
+		<div class="app">
+			<div>
+				<img src="img/logo.png" class="logo">
+			</div>
+			<div class="main">
+				<div>
+					<img src="img/yyds.png" class="btn" id="trans">
+				</div>
+				<div>
+					<img src="img/nhwc.png" class="btn" id="idiom">
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script>
+			mui.init();
+
+			// 获取按钮元素对象
+			var btn1 = mui("#trans")[0]
+			
+			// 为按钮添加事件处理程序 
+			btn1.addEventListener("tap",function(){  
+				mui.openWindow("trans/index.html")
+			}) 
+			
+			// 你画我猜 成语
+			mui("#idiom")[0].addEventListener("tap",function(){
+				// 页面路径：idiom/index.html
+				mui.openWindow('idiom/index.html') 
+			}) 
+			
+
+		</script>
+	</body>
+</html>
